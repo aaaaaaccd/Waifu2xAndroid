@@ -19,7 +19,7 @@ package lbtrace.waifu2xandroid_v2;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class ImageScaleTask extends AsyncTask<Bitmap, Void, Bitmap> {
     private final AssetManager mAssetManager;

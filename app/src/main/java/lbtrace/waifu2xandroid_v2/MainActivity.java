@@ -1,17 +1,24 @@
 package lbtrace.waifu2xandroid_v2;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.io.IOException;
+
+import lbtrace.imageutils.Image;
+
+import static lbtrace.waifu2xandroid_v2.R.*;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -24,15 +31,16 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mIsScale;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
 
-        mImageView = (ImageView) findViewById(R.id.scale_image);
-        mPickBtn = (Button) findViewById(R.id.pick_btn);
-        mProcessBtn = (Button) findViewById(R.id.process_btn);
-        mScaleProgressBar = (ProgressBar) findViewById(R.id.scale_process_pb);
+        mImageView = (ImageView) findViewById(id.imageView2);
+        mPickBtn = (Button) findViewById(id.pick_btn);
+        mProcessBtn = (Button)findViewById(id.process_btn);
+        mScaleProgressBar = (ProgressBar) findViewById(id.scale_process_pb);
         mScaleProgressBar.setVisibility(View.GONE);
 
         mPickBtn.setOnClickListener(new View.OnClickListener() {

@@ -18,7 +18,7 @@ package lbtrace.waifu2xandroid_v2;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;

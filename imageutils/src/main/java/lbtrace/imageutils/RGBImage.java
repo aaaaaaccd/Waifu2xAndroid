@@ -17,7 +17,7 @@
 package lbtrace.imageutils;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /*
  * RGB format image

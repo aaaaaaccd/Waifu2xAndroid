@@ -17,7 +17,7 @@
 package lbtrace.waifu2xandroid_v2;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /*
  * Scale image policy interface

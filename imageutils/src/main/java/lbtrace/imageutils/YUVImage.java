@@ -16,7 +16,7 @@
 
 package lbtrace.imageutils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /*
  * YUV format image
