@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 out.close();
                 Toast ts = Toast.makeText(getApplicationContext(),"成功保存到 "+Path, Toast.LENGTH_LONG);
                 ts.show();
+            } else {
+                Toast ts = Toast.makeText(getApplicationContext(), "保存失败,图片处理错误", Toast.LENGTH_LONG);
+                ts.show();
             }
         } catch (Exception e){
             e.printStackTrace();
