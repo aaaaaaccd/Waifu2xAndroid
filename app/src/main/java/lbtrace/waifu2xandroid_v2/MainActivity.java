@@ -1,7 +1,6 @@
 package lbtrace.waifu2xandroid_v2;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
@@ -12,11 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
-import lbtrace.imageutils.Image;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static lbtrace.waifu2xandroid_v2.R.*;
 
@@ -27,10 +27,29 @@ public class MainActivity extends AppCompatActivity {
     private Button mPickBtn;
     private Button mProcessBtn;
     private Bitmap oriBitmap;
+    private Button mOutputBtn;
     private ProgressBar mScaleProgressBar;
 
     private boolean mIsScale;
-
+    public void saveJPG_After(Bitmap bitmap) {
+        mPickBtn.setClickable(true);
+        FileOutputStream out = null;
+        String Path = "/sdcard/pictures/Waifu2X/%s";
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        String str = formatter.format(curDate);
+        Path = String.format(str, Path);
+        File file = new File(Path);
+        try {
+            out = new FileOutputStream(file);
+            if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)) {
+                out.flush();
+                out.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         mImageView = (ImageView) findViewById(id.imageView2);
         mPickBtn = (Button) findViewById(id.pick_btn);
-        mProcessBtn = (Button)findViewById(id.process_btn);
+        mProcessBtn = (Button)findViewById(id.output_button);
+        mOutputBtn = (Button)findViewById(id.output_btn);
         mScaleProgressBar = (ProgressBar) findViewById(id.scale_process_pb);
         mScaleProgressBar.setVisibility(View.GONE);
 
@@ -58,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.i(LOG_TAG, "ori Bitmap size: (" + oriBitmap.getHeight() + "," + oriBitmap.getWidth() + ")");
                 new ImageScaleTask(getAssets(), new ViewExecuteCallback()).execute(oriBitmap);
+            }
+        });
+        mOutputBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveJPG_After(oriBitmap);
             }
         });
     }
@@ -97,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             oriBitmap = bitmap;
             mPickBtn.setClickable(true);
             mScaleProgressBar.setVisibility(View.GONE);
+            }
         }
     }
-}
+
