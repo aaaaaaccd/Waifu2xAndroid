@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
-
         mImageView = (ImageView) findViewById(id.imageView2);
         mPickBtn = (Button) findViewById(id.pick_btn);
         mProcessBtn = (Button)findViewById(id.output_button);
@@ -139,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         //说明已经授权
         return true;
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
