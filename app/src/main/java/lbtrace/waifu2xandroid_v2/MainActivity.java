@@ -1,8 +1,13 @@
 package lbtrace.waifu2xandroid_v2;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,22 +37,39 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mScaleProgressBar;
 
     private boolean mIsScale;
-    public void saveJPG_After(Bitmap bitmap) {
+    public void saveJPG_After(Bitmap bitmap){
         mPickBtn.setClickable(true);
         FileOutputStream out = null;
-        String Path = "/sdcard/pictures/Waifu2X/%s";
+        String Path = Environment.getExternalStorageDirectory().getPath()+"/pictures/Waifu2X/%s.png";
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());
         String str = formatter.format(curDate);
-        Path = String.format(str, Path);
-        File file = new File(Path);
+        Path = String.format(Path,str);
+
         try {
+            //先创建目录
+            File dirr = new File(Environment.getExternalStorageDirectory().getPath()+"/pictures/Waifu2X/");
+            if (!dirr.exists() && !dirr.mkdirs()){
+                Toast ts = Toast.makeText(getApplicationContext(),"存储目录创建失败!", Toast.LENGTH_LONG);
+                ts.show();
+                return;
+            }
+            //再生成文件
+            File file = new File(Path);
+            if (!file.exists()) {
+                if (file.createNewFile()){
+                    Toast ts = Toast.makeText(getApplicationContext(),"存储文件创建失败!", Toast.LENGTH_LONG);
+                    ts.show();
+                }
+            }
             out = new FileOutputStream(file);
             if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)) {
                 out.flush();
                 out.close();
+                Toast ts = Toast.makeText(getApplicationContext(),"成功保存到 "+Path, Toast.LENGTH_LONG);
+                ts.show();
             }
-        } catch (IOException e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -86,6 +109,27 @@ public class MainActivity extends AppCompatActivity {
                 saveJPG_After(oriBitmap);
             }
         });
+
+        //请求存储权限 (Android 6.0后需要动态申请)
+        isGrantExternalRW(this,1);
+    }
+
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    public static boolean isGrantExternalRW(Activity activity, int requestCode) {
+
+        int storagePermission = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        //检测是否有权限，如果没有权限，就需要申请
+        if (storagePermission != PackageManager.PERMISSION_GRANTED) {
+            //申请权限
+            activity.requestPermissions(PERMISSIONS_STORAGE, requestCode);
+            //返回false。说明没有授权
+            return false;
+        }
+        //说明已经授权
+        return true;
     }
 
     @Override
