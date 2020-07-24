@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         mOutputBtn = (Button)findViewById(id.output_btn);
         mScaleProgressBar = (ProgressBar) findViewById(id.scale_process_pb);
         mScaleProgressBar.setVisibility(View.GONE);
-
+        mProcessBtn.setEnabled(false);
+        mOutputBtn.setEnabled(false);
         mPickBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_IMAGE_CODE);
+
             }
         });
 
@@ -100,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.i(LOG_TAG, "ori Bitmap size: (" + oriBitmap.getHeight() + "," + oriBitmap.getWidth() + ")");
+                Toast ts = Toast.makeText(getApplicationContext(),"正在处理,这可能需要一段时间......", Toast.LENGTH_LONG);
+                ts.show();
                 new ImageScaleTask(getAssets(), new ViewExecuteCallback()).execute(oriBitmap);
             }
         });
@@ -142,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         oriBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         mImageView.setImageBitmap(oriBitmap);
+                        mProcessBtn.setEnabled(true);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -167,7 +172,8 @@ public class MainActivity extends AppCompatActivity {
             oriBitmap = bitmap;
             mPickBtn.setClickable(true);
             mScaleProgressBar.setVisibility(View.GONE);
-            }
+            mOutputBtn.setEnabled(true);
+        }
         }
     }
 
