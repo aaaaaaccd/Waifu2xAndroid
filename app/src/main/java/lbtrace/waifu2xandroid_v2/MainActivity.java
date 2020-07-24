@@ -49,12 +49,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             //先创建目录
             File dirr = new File(Environment.getExternalStorageDirectory().getPath()+"/pictures/Waifu2X/");
-            if (!dirr.exists())
-				if(!dirr.mkdirs()){
-					Toast ts = Toast.makeText(getApplicationContext(),"存储目录创建失败!", Toast.LENGTH_LONG);
-					ts.show();
-					return;
-				}
+            if (!dirr.exists() && !dirr.mkdirs()){
+                Toast ts = Toast.makeText(getApplicationContext(),"存储目录创建失败!", Toast.LENGTH_LONG);
+                ts.show();
+                return;
             }
             //再生成文件
             File file = new File(Path);
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 if (!file.createNewFile()){
                     Toast ts = Toast.makeText(getApplicationContext(),"存储文件创建失败!", Toast.LENGTH_LONG);
                     ts.show();
-					return;
                 }
             }
             out = new FileOutputStream(file);
@@ -71,10 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 out.close();
                 Toast ts = Toast.makeText(getApplicationContext(),"成功保存到 "+Path, Toast.LENGTH_LONG);
                 ts.show();
-            }else{
-                Toast ts = Toast.makeText(getApplicationContext(),"保存失败,图片处理错误", Toast.LENGTH_LONG);
-                ts.show();
-			}
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
