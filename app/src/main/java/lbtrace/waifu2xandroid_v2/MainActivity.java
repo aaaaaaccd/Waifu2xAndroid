@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             //再生成文件
             File file = new File(Path);
             if (!file.exists()) {
-                if (!file.createNewFile()){
+                if (file.createNewFile()){
                     Toast ts = Toast.makeText(getApplicationContext(),"存储文件创建失败!", Toast.LENGTH_LONG);
                     ts.show();
                 }
