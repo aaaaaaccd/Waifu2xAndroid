@@ -23,8 +23,8 @@ android {
         applicationId "aaaaaaccd.waifu2xandroid"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 20724
-        versionName '1.7.20724'
+        versionCode 20725
+        versionName '1.7.20725'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

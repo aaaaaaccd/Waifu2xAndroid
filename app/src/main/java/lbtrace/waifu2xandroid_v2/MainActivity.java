@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        dialog.setTitle("注意");
+        dialog.setMessage("RAM可用空间越多，能处理图片的分辨率越高。卡退可达到清理内存的作用。建议原图大小在500x500以下");
+        dialog.create();
+        dialog.show();
         mImageView = (ImageView) findViewById(id.imageView2);
         mPickBtn = (Button) findViewById(id.pick_btn);
         mProcessBtn = (Button)findViewById(id.output_button);
